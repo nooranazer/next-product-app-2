@@ -1,0 +1,33 @@
+
+
+.home {
+  min-height: 100vh;
+  background: linear-gradient(to right, #f7f7f7, #e3f2fd);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.home h1 {
+  font-size: 3rem;
+  color: #1976d2;
+  margin-bottom: 20px;
+}
+
+.home .MuiButton-root {
+  font-size: 1.1rem;
+  padding: 10px 24px;
+  border-radius: 8px;
+  text-transform: capitalize;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.home .MuiButton-root:hover {
+  background-color: #1565c0;
+  transform: translateY(-2px);
+}
