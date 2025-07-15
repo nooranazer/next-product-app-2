@@ -47,7 +47,7 @@ useEffect(() => {
     .then(res => {
 
       let apiProduct = res.data.products as ProductType[];
-      
+
       const edited = JSON.parse(localStorage.getItem('editedproduct') || 'null');
       apiProduct = edited ? apiProduct.map(p => p.id === edited.id ? edited : p) : apiProduct;
 
@@ -70,7 +70,7 @@ useEffect(() => {
           Add Product
         </Link>
       </div>
-      <h1 className="product-heading">Find Your Product</h1>
+      <h1 className="product-heading">Find Your Product Here</h1>
 
       {product.length === 0 ? (
         <Skeleton variant="rectangular" width={210} height={118} />

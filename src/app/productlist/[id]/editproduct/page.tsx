@@ -58,7 +58,7 @@ const EditProduct = () => {
         localStorage.setItem('editedproduct', JSON.stringify(product));
 
         // Redirect back to the product list
-        router.push('/productlist');
+        router.push(`/productlist/${id}`);
     } catch (error) {
         console.error('Error updating product:', error);
         alert('Failed to update product.');

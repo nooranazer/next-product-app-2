@@ -85,7 +85,7 @@ const ViewPage = () => {
           </Button>
         </Link>
 
-        <h2 className="text-center mb-4">{product.title}</h2>
+        <h2 className="text-center mb-4 mt-4">{product.title}</h2>
 
         <div className="text-center mb-4">
           <img
