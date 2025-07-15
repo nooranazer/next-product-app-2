@@ -9,34 +9,59 @@ import { Skeleton } from '@mui/material';
 const ProductList = () => {
   const [product, setProduct] = useState<ProductType[]>([]);
 
-  useEffect(() => {
-    api.get('/')
-      .then((res) => {
-    const apiProduct = res.data.products
-    // First, get the product from localStorage if available
-    const savedProduct = localStorage.getItem('newProduct');
-    let productsFromLocalStorage: ProductType[] = [];
-    
-    if (savedProduct) {
-      // If there's a saved product, add it to the product array
-      productsFromLocalStorage = [JSON.parse(savedProduct)];
-    }
-    
-    //editproduct
-    const updatedProduct = JSON.parse(localStorage.getItem('editedproduct') || 'null')
-    const updatedApiProducts = updatedProduct 
-    ? apiProduct.map((p:ProductType[]) => p.id === updatedProduct.id ? updatedProduct : p )
-    : apiProduct
+// useEffect(() => {
+//    api.get('/')
+//      .then((res) => {
+//        const apiProduct = res.data.products;
+       
+//        // Get the edited product from localStorage
+//        const updatedProduct = JSON.parse(localStorage.getItem('editedproduct') || 'null');
+
+//        // If there's an updated product, replace the corresponding API product
+//        const updatedApiProducts = updatedProduct
+//          ? apiProduct.map((p: ProductType) =>
+//              p.id === updatedProduct.id ? updatedProduct : p
+//            )
+//          : apiProduct;
+
+//        // Combine with the saved product from localStorage (newProduct)
+//        const savedProduct = localStorage.getItem('newProduct');
+//        let productsFromLocalStorage: ProductType[] = [];
+       
+//        if (savedProduct) {
+//          productsFromLocalStorage = [JSON.parse(savedProduct)];
+//        }
+
+//        // Combine both sets of products
+//        const allProducts = [...productsFromLocalStorage, ...updatedApiProducts];
+//        setProduct(allProducts);
+//      })
+//      .catch((err) => {
+//        console.error('No products found:', err);
+//      });
+//  }, []);
 
 
-    // Combine products from API and the saved product
-    const allProducts = [...productsFromLocalStorage, ...updatedApiProducts];
-    setProduct(allProducts);
+useEffect(() => {
+  api.get('/')
+    .then(res => {
+
+      let apiProduct = res.data.products as ProductType[];
+      
+      const edited = JSON.parse(localStorage.getItem('editedproduct') || 'null');
+      apiProduct = edited ? apiProduct.map(p => p.id === edited.id ? edited : p) : apiProduct;
+
+      const saved = localStorage.getItem('newProduct');
+      const all = saved ? [JSON.parse(saved), ...apiProduct] : apiProduct;
+
+      const deletedIds = JSON.parse(localStorage.getItem('deletedProductIds') || '[]') as string[];
+      const finalList = all.filter(p => !deletedIds.includes(p.id));
+
+      setProduct(finalList);
     })
-    .catch((err) => {
-    console.error('No products found:', err);
-    });
-   }, []);
+    .catch(console.error);
+}, []);
+
 
   return (
     <div className="product-container container">

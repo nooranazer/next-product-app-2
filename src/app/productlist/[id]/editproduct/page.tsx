@@ -8,7 +8,6 @@ import React, { useEffect, useState } from "react";
 const EditProduct = () => {
     const { id } = useParams();
     const router = useRouter();
-
     const [product, setProduct] = useState<AddProductType>({
         title: '',
         price: 0,
@@ -16,7 +15,6 @@ const EditProduct = () => {
         thumbnail: '',
         description: ''
     });
-
 
     useEffect(() => {
         if (!id) return; // Prevent the API call if the ID is not available
@@ -40,27 +38,31 @@ const EditProduct = () => {
         }));
     };
 
-    // Handle form submission
+    
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    e.preventDefault();
 
-        try {
-            const res = await api.patch(`/${id}`, {
-                title: product.title,
-                price: product.price,
-                stock: product.stock,
-                thumbnail: product.thumbnail,
-                description: product.description
-                
-            });  // Send the updated product data
-            alert('Product updated successfully!');
-            localStorage.setItem('editedproduct',JSON.stringify(product))
+    try {
+        // Update the product using API
+        const res = await api.patch(`/${id}`, {
+        title: product.title,
+        price: product.price,
+        stock: product.stock,
+        thumbnail: product.thumbnail,
+        description: product.description
+        });
 
-            router.push('/productlist');  
-        } catch (error) {
-            console.error('Error updating product:', error);
-            alert('Failed to update product.');
-        }
+        alert('Product updated successfully!');
+
+        // Save only the edited product to localStorage
+        localStorage.setItem('editedproduct', JSON.stringify(product));
+
+        // Redirect back to the product list
+        router.push('/productlist');
+    } catch (error) {
+        console.error('Error updating product:', error);
+        alert('Failed to update product.');
+    }
     };
 
     return (
@@ -115,7 +117,7 @@ const EditProduct = () => {
                     rows={3}
                 />
                 <Button type="submit" variant="contained" color="primary">
-                    Update Product
+                 Update Product
                 </Button>
             </form>
         </div>
